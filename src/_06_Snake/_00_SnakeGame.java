@@ -146,8 +146,10 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		Location loc = new Location(rand.nextInt(15), rand.nextInt(12));
 		//2. set the foodLocation variable equal to the Location object you just created.
 		//   use the snake's isLocationOnSnake method to make sure you don't put the food on the snake
+		if(snake.isLocationOnSnake(loc)) {
+			loc = new Location(rand.nextInt(15), rand.nextInt(12));
+		}
 		foodLocation = loc;
-		snake.isLocationOnSnake(foodLocation);
 	}
 
 	private void gameOver() {
@@ -165,7 +167,9 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		String choice = options[input];
 		switch(choice) {
 		case "Yes":
-			snake.reset(foodLocation);
+			snake.reset(new Location(WIDTH / 2, HEIGHT / 2));
+			setFoodLocation();
+			timer.restart();
 			break;
 		case "No":
 			System.exit(0);
@@ -189,7 +193,7 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		}
 		//3. if the location of the head is equal to the location of the food,
 		// 	 feed the snake and set the food location
-		if(snake.getHeadLocation() == foodLocation) {
+		if(snake.getHeadLocation().equals(foodLocation)) {
 			snake.feed();
 			setFoodLocation();
 		}
